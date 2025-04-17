@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: joblog-db
+    environment:
+      POSTGRES_USER: achraf
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: joblog
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  nextjs:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: joblog-front
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://achraf:123@db:5432/joblog
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
