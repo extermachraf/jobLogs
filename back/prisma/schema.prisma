@@ -33,8 +33,6 @@ model Job {
   employmentType String   // e.g. "Temps plein", "CDI"
   experience     String?  // e.g. "2 ans et plus"
   description    String   // Full job description
-  responsibilities String?
-  requirements   String?
   skills         String[] // array of required skills: ['Node.js', 'React.js', etc.]
   salary         String?  // optional if included
   startDate      DateTime?

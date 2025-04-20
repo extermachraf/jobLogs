@@ -117,15 +117,11 @@ export class JobParserService {
     "location": "City, Country",
     "employmentType": "Full-time",
     "experience": null,
-    "description": "Full job description",
-    "responsibilities": null,
-    "requirements": null,
+    "description": "description of the job",
     "skills": ["Skill1", "Skill2"],
     "salary": null,
-    "startDate": "2023-01-01T00:00:00.000Z",
     "remote": false,
     "postedAt": "2023-01-01T00:00:00.000Z",
-    "companyId": 1
   }
 }
 
