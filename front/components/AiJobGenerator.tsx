@@ -50,7 +50,7 @@ export default function AiJobGenerator() {
   };
 
   return (
-    <div className="container h-full flex flex-col justify-center gap-[200px]">
+    <div className="container h-full flex flex-col justify-center gap-[200px] pt-28">
       <h2 className="text-2xl font-bold text-center">
         Take Control of Your Job Search Journey with <br />
         Clarity and Confidence

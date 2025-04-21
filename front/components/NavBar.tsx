@@ -23,8 +23,8 @@ const NavBar = () => {
   }
 
   return (
-    <div className="container flex items-center justify-end px-8 py-4 fixed z-40 ">
-      <div className="flex items-center space-x-4">
+    <div className="container flex items-center justify-end px-8 py-4 fixed z-40 dark:bg-white bg-black">
+      <div className="flex items-center space-x-4 ">
         <Switch
           id="theme-toggle"
           checked={theme === "dark"}

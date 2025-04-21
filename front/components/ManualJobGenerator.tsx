@@ -20,10 +20,8 @@ import { jobtSchema } from "@/schema/jobSchema";
 import JobForm from "./forms/JobForm";
 
 export default function ManualJobGenerator() {
-  const { value, setValue } = useManuallSave();
-
   return (
-    <div className="mx-auto container h-full pb-16">
+    <div className="mx-auto container">
       <JobForm />
     </div>
   );

@@ -10,11 +10,11 @@ export default function Home() {
   const { value } = useManuallSave();
   return (
     <JobProvider>
-      <main className="h-screen pt-14 overflow-hidden">
+      <main className="pt-14">
         {!value ? (
           <AiJobGenerator />
         ) : (
-          <div className="text-2xl h-screen">
+          <div className=" ">
             <ManualJobGenerator />
           </div>
         )}

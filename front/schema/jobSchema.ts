@@ -16,7 +16,7 @@ export const jobtSchema = z.object({
     description: z.string(),
     skills: z.array(z.string()),
     salary: z.string(),
-    startDate: z.string(),
+    startDate: z.date().nullable(),
     remote: z.boolean(),
   }),
   linkdinEmail: z.object({

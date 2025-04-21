@@ -15,11 +15,16 @@ import {
 import { Button } from "../ui/button";
 import useManuallSave from "@/states/ManuallSave";
 import { Input } from "../ui/input";
+import TagInput from "../ui/TagInput";
+import { ScrollArea } from "../ui/scroll-area";
+import { Checkbox } from "../ui/checkbox";
+import { DatePicker } from "../ui/DatePicker";
 
 const JobInput = (props: {
   control: any;
   fieldName: string;
   description: string;
+  type?: string;
 }) => {
   return (
     <FormField
@@ -28,16 +33,35 @@ const JobInput = (props: {
       render={({ field }) => (
         <FormItem>
           <FormControl>
-            <div className="text-sm text-gray-500 border flex flex-row items-center px-4 rounded-md gap-3 w-full">
+            <div
+              className={`text-sm text-gray-500  flex flex-row items-center ${
+                props.type !== "date" ? "px-4 border gap-3" : ""
+              } rounded-md  w-full`}
+            >
               <div className="text-sm dark:text-white/80 text-black/80">
                 {props.description}
               </div>
-              <Input
-                type="text"
-                className="flex-1 focus:outline-none focus:ring-0 focus-visible:ring-0  border-0 rounded-md placeholder:text-sm blaceholder:text p-0"
-                placeholder=""
-                {...field}
-              />
+              {props.type === "tag" && (
+                <TagInput
+                  value={field.value}
+                  onChange={(value) => field.onChange(value)}
+                  placeholder=""
+                />
+              )}
+              {props.type === "date" && (
+                <DatePicker
+                  value={field.value}
+                  onChange={(date) => field.onChange(date)}
+                />
+              )}
+              {!props.type && (
+                <Input
+                  type="text"
+                  className="flex-1 focus:outline-none focus:ring-0 focus-visible:ring-0  border-0 rounded-md placeholder:text-sm blaceholder:text p-0"
+                  placeholder=""
+                  {...field}
+                />
+              )}
             </div>
           </FormControl>
           <FormMessage />
@@ -70,7 +94,7 @@ const JobForm = () => {
         description: "",
         skills: [],
         salary: "",
-        startDate: "",
+        startDate: null,
         remote: false,
       },
       linkdinEmail: {
@@ -86,85 +110,108 @@ const JobForm = () => {
   };
 
   return (
-    <div className=" lg:h-full">
+    <div className="">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="h-full lg:grid lg:grid-rows-2 lg:grid-cols-2 flex flex-col  justify-center gap-2"
+          className="lg:grid lg:grid-rows-2 lg:grid-cols-2 flex flex-col  justify-center gap-2"
         >
           <div className="lg:row-span-2 lg:col-span-1  p-4 ">
             <div className="space-y-6">
               <div className="text-center font-semibold">JOB</div>
-              <div className="flex flex-col gap-8 ">
-                <div className="grid grid-cols-2 gap-4 justify-center">
+              <ScrollArea className="h-[700px] p-3">
+                <div className="flex flex-col gap-8 ">
+                  <div className="grid grid-cols-2 gap-4 justify-center">
+                    <JobInput
+                      control={form.control}
+                      fieldName="job.title"
+                      description="Title:"
+                    ></JobInput>
+                    <JobInput
+                      control={form.control}
+                      fieldName="job.location"
+                      description="Location:"
+                    ></JobInput>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 justify-center">
+                    <JobInput
+                      control={form.control}
+                      fieldName="job.salary"
+                      description="Salary:"
+                    ></JobInput>
+                    <JobInput
+                      control={form.control}
+                      fieldName="job.startDate"
+                      description=""
+                      type="date"
+                    ></JobInput>
+                  </div>
                   <JobInput
                     control={form.control}
-                    fieldName="job.title"
-                    description="Title:"
+                    fieldName="job.description"
+                    description="Description:"
                   ></JobInput>
                   <JobInput
                     control={form.control}
-                    fieldName="job.location"
-                    description="Location:"
+                    fieldName="job.experience"
+                    description="Experience:"
+                  ></JobInput>
+                  <JobInput
+                    control={form.control}
+                    fieldName="job.skills"
+                    description="Skills:"
+                    type="tag"
+                  ></JobInput>
+                  <div className="grid grid-cols-2 gap-4 justify-center">
+                    <JobInput
+                      control={form.control}
+                      fieldName="job.employmentType"
+                      description="contract type:"
+                    ></JobInput>
+                    <FormField
+                      control={form.control}
+                      name="job.remote"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl className="pl-4">
+                            <div className="flex items-center gap-5">
+                              <FormLabel>Remote:</FormLabel>
+                              <Checkbox
+                                id="remote"
+                                className=""
+                                checked={field.value}
+                                onCheckedChange={(checked) =>
+                                  field.onChange(checked)
+                                }
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <JobInput
+                    control={form.control}
+                    fieldName="linkdinEmail.email"
+                    description="emails:"
+                    type="tag"
+                  ></JobInput>
+                  <JobInput
+                    control={form.control}
+                    fieldName="linkdinEmail.linkdin"
+                    description="linkdins:"
+                    type="tag"
                   ></JobInput>
                 </div>
-                <div className="grid grid-cols-2 gap-4 justify-center">
-                  <JobInput
-                    control={form.control}
-                    fieldName="job.salary"
-                    description="Salary:"
-                  ></JobInput>
-                  <JobInput
-                    control={form.control}
-                    fieldName="job.startDate"
-                    description="Start Date:"
-                  ></JobInput>
-                </div>
-                <JobInput
-                  control={form.control}
-                  fieldName="job.description"
-                  description="Description:"
-                ></JobInput>
-                <JobInput
-                  control={form.control}
-                  fieldName="job.experience"
-                  description="Experience:"
-                ></JobInput>
-                <JobInput
-                  control={form.control}
-                  fieldName="job.skills"
-                  description="Skills:"
-                ></JobInput>
-                <div className="grid grid-cols-2 gap-4 justify-center">
-                  <JobInput
-                    control={form.control}
-                    fieldName="job.employmentType"
-                    description="contract type:"
-                  ></JobInput>
-                  <JobInput
-                    control={form.control}
-                    fieldName="job.remote"
-                    description="remote:"
-                  ></JobInput>
-                </div>
-                <JobInput
-                  control={form.control}
-                  fieldName="linkdinEmail.email"
-                  description="emails:"
-                ></JobInput>
-                <JobInput
-                  control={form.control}
-                  fieldName="linkdinEmail.linkdin"
-                  description="linkdins:"
-                ></JobInput>
-              </div>
+              </ScrollArea>
             </div>
           </div>
 
           <div className="lg:row-span-1 lg:col-span-1  p-4">
             <div className="space-y-6">
               <p className="text-center font font-semibold">COMPANY</p>
-              <div className="flex flex-col gap-8 ">
+              <div className="flex flex-col gap-8 p-3">
                 <div className="grid grid-cols-2 gap-4 justify-center">
                   <JobInput
                     control={form.control}
