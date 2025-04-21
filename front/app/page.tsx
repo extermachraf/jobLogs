@@ -7,18 +7,17 @@ import useManuallSave from "@/states/ManuallSave";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  const { value, setValue } = useManuallSave();
+  const { value } = useManuallSave();
   return (
     <JobProvider>
-      <main className="h-screen">
+      <main className="h-screen pt-14 overflow-hidden">
         {!value ? (
           <AiJobGenerator />
         ) : (
-          <div className="text-2xl">
+          <div className="text-2xl h-screen">
             <ManualJobGenerator />
           </div>
         )}
-        {value && <Button onClick={() => setValue(!value)}>use Ai</Button>}
       </main>
     </JobProvider>
   );

@@ -6,7 +6,7 @@ interface ManualSaveState {
 }
 
 const useManuallSave = create<ManualSaveState>()((set) => ({
-  value: false,
+  value: true,
   setValue: (newValue: boolean) => set({ value: newValue }),
 }));
 
