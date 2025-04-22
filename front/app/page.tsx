@@ -10,7 +10,7 @@ export default function Home() {
   const { value } = useManuallSave();
   return (
     <JobProvider>
-      <main className="pt-14">
+      <main className="pt-20">
         {!value ? (
           <AiJobGenerator />
         ) : (
