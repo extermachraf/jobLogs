@@ -41,4 +41,25 @@ model Job {
 
   companyId      Int
   company        Company  @relation(fields: [companyId], references: [id])
+  emails         email[]
+  linkedIns     linkedIn[]
+}
+
+model email {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  jobId         Int
+  job          Job      @relation(fields: [jobId], references: [id])
+}
+
+model linkedIn {
+  id             Int      @id @default(autoincrement())
+  profileUrl     String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  jobId          Int
+  job            Job      @relation(fields: [jobId], references: [id])
+  
 }
