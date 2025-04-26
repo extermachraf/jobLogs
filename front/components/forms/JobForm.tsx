@@ -12,6 +12,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "../ui/button";
 import useManuallSave from "@/states/ManuallSave";
 import { Input } from "../ui/input";
@@ -28,6 +37,7 @@ const JobInput = (props: {
   description: string;
   type?: string;
 }) => {
+  const contract = ["CDI", "CDD", "freelence"];
   return (
     <FormField
       control={props.control}
@@ -37,12 +47,14 @@ const JobInput = (props: {
           <FormControl>
             <div
               className={`text-sm text-gray-500  flex flex-row items-center ${
-                props.type !== "date" ? "px-4 border gap-3" : ""
+                props.type !== "contract type" ? "px-4 border gap-3" : ""
               } rounded-md  w-full`}
             >
-              <div className="text-sm dark:text-white/80 text-black/80">
-                {props.description}
-              </div>
+              {props.type !== "contract type" && (
+                <div className="text-sm dark:text-white/80 text-black/80">
+                  {props.description}
+                </div>
+              )}
               {props.type === "tag" && (
                 <TagInput
                   value={field.value}
@@ -55,6 +67,27 @@ const JobInput = (props: {
                   value={field.value}
                   onChange={(date) => field.onChange(date)}
                 />
+              )}
+              {props.type === "contract type" && (
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <div className="flex items-center justify-around w-full">
+                    <SelectTrigger className="w-full focus:outline-none focus:ring-0 focus-visible:ring-0  rounded-md placeholder:text-sm blaceholder:text">
+                      <SelectValue placeholder="Select contract type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {contract.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </div>
+                </Select>
               )}
               {!props.type && (
                 <Input
@@ -170,7 +203,7 @@ const JobForm = () => {
           <div className="lg:row-span-2 lg:col-span-1  p-4 ">
             <div className="space-y-6">
               <div className="text-center font-semibold">JOB</div>
-              <ScrollArea className="h-[700px] p-3">
+              <ScrollArea className="p-3">
                 <div className="flex flex-col gap-8 ">
                   <div className="grid grid-cols-2 gap-4 justify-center">
                     <JobInput
@@ -231,6 +264,7 @@ const JobForm = () => {
                   ></JobInput>
                   <div className="grid grid-cols-2 gap-4 justify-center">
                     <JobInput
+                      type="contract type"
                       control={form.control}
                       fieldName="job.employmentType"
                       description="contract type:"

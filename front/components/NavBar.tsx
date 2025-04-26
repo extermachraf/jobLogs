@@ -42,7 +42,7 @@ const NavBar = () => {
   }
 
   return (
-    <div className="fixed container flex items-center justify-between px-8 py-4 shadow-md dark:shadow-white/10">
+    <div className="fixed container z-50 bg-background flex items-center justify-between px-8 py-4 shadow-md dark:shadow-white/10">
       <Link href="/" className="flex items-center space-x-2">
         <IoStatsChart className="text-2xl text-primary" />
         <span className="text-lg font-bold text-primary">JobLogs</span>
