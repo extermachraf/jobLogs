@@ -161,4 +161,16 @@ export class CompanyService {
       throw new BadRequestException('Failed to delete company');
     }
   }
+
+  async findByName(companyName: string) {
+    try {
+      const company = await this.prisma.company.findUnique({
+        where: { name: companyName },
+      });
+      if (!company) null;
+      return company;
+    } catch (error) {
+      throw new BadRequestException('failed to find company');
+    }
+  }
 }

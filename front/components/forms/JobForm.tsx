@@ -19,6 +19,8 @@ import TagInput from "../ui/TagInput";
 import { ScrollArea } from "../ui/scroll-area";
 import { Checkbox } from "../ui/checkbox";
 import { DatePicker } from "../ui/DatePicker";
+import axios from "axios";
+import { toast } from "sonner";
 
 const JobInput = (props: {
   control: any;
@@ -94,7 +96,6 @@ const JobForm = () => {
         description: "",
         skills: [],
         salary: "",
-        startDate: null,
         remote: false,
       },
       linkdinEmail: {
@@ -106,7 +107,57 @@ const JobForm = () => {
   });
 
   const onSubmit = async (data: jobtSchema) => {
-    console.log("Form submitted:", data);
+    const backurl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    try {
+      const payload: any = {
+        job: data.job,
+        email: data.linkdinEmail.email,
+        profileUrl: data.linkdinEmail.linkdin,
+      };
+
+      if (data.company.name.trim() !== "") {
+        payload.company = data.company;
+      }
+
+      console.log(backurl);
+      const response = await axios.post(`${backurl}/job-saver`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.success) {
+        console.log("Job saved successfully:", response.data);
+        form.reset();
+        toast.success("Job created successfully", {
+          description: "The job has been saved successfully.",
+          style: {
+            backgroundColor: "green",
+            color: "white",
+          },
+          duration: 5000, // Set max time to 5 seconds
+        });
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("Error saving job:", error.response?.data);
+        toast.error(
+          <div>
+            {error.response?.data?.message?.map(
+              (message: string, key: number) => (
+                <p key={key}>{message}</p>
+              )
+            )}
+          </div>,
+          {
+            style: {
+              backgroundColor: "red",
+              color: "white",
+            },
+          }
+        );
+      }
+    }
   };
 
   return (
@@ -139,12 +190,28 @@ const JobForm = () => {
                       fieldName="job.salary"
                       description="Salary:"
                     ></JobInput>
-                    <JobInput
+                    <FormField
                       control={form.control}
-                      fieldName="job.startDate"
-                      description=""
-                      type="date"
-                    ></JobInput>
+                      name="job.remote"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl className="pl-4">
+                            <div className="flex items-center gap-5">
+                              <FormLabel>Remote:</FormLabel>
+                              <Checkbox
+                                id="remote"
+                                className=""
+                                checked={field.value}
+                                onCheckedChange={(checked) =>
+                                  field.onChange(checked)
+                                }
+                              />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
                   <JobInput
                     control={form.control}
@@ -168,28 +235,6 @@ const JobForm = () => {
                       fieldName="job.employmentType"
                       description="contract type:"
                     ></JobInput>
-                    <FormField
-                      control={form.control}
-                      name="job.remote"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl className="pl-4">
-                            <div className="flex items-center gap-5">
-                              <FormLabel>Remote:</FormLabel>
-                              <Checkbox
-                                id="remote"
-                                className=""
-                                checked={field.value}
-                                onCheckedChange={(checked) =>
-                                  field.onChange(checked)
-                                }
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
                   <JobInput
                     control={form.control}

@@ -45,7 +45,7 @@ class Job {
 
   @IsOptional()
   @IsString()
-  @IsIn(['CDI', 'CDD', 'freelence'], {
+  @IsIn(['CDI', 'CDD', 'freelence', ''], {
     message: 'employment type must be one of : CDI, CDD, freelence',
   })
   employmentType?: string;
@@ -93,6 +93,5 @@ export class CreateJobSaverDto {
 
   @IsOptional()
   @IsArray()
-  @IsUrl({}, { each: true }) // Add URL validation for each element
   profileUrl?: string[]; // Make it optional with ?
 }

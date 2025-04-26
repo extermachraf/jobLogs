@@ -39,8 +39,8 @@ model Job {
   remote         Boolean  @default(false)
   postedAt       DateTime @default(now())
 
-  companyId      Int
-  company        Company  @relation(fields: [companyId], references: [id])
+  companyId      Int?
+  company        Company?  @relation(fields: [companyId], references: [id])
   emails         email[]
   linkedIns     linkedIn[]
 }
